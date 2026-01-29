@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bangalore Travel Guide - The Garden City</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #0d47a1 0%, #1976d2 50%, #42a5f5 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1b5e20 0%, #388e3c 50%, #66bb6a 100%);
+            color: white;
+            padding: 80px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: "🌳";
+            position: absolute;
+            font-size: 15em;
+            opacity: 0.1;
+            top: -50px;
+            left: -50px;
+            animation: sway 4s ease-in-out infinite;
+        }
+
+        header::after {
+            content: "💻";
+            position: absolute;
+            font-size: 12em;
+            opacity: 0.1;
+            bottom: -30px;
+            right: -30px;
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes sway {
+            0%, 100% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        header h1 {
+            font-size: 3.5em;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        header p {
+            font-size: 1.3em;
+            opacity: 0.95;
+            position: relative;
+            z-index: 1;
+        }
+
+        .content {
+            padding: 50px 40px;
+        }
+
+        .section {
+            margin-bottom: 60px;
+        }
+
+        .section h2 {
+            color: #1b5e20;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 4px solid #4caf50;
+            display: inline-block;
+        }
+
+        .intro {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 50px;
+            border-left: 6px solid #1b5e20;
+        }
+
+        .intro p {
+            font-size: 1.2em;
+            line-height: 1.8;
+            color: #555;
+        }
+
+        /* Attractions Grid */
+        .attractions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .attraction-card {
+            background: linear-gradient(135deg, #f1f8e9 0%, #dcedc8 100%);
+            border-radius: 20px;
+            padding: 30px;
+            transition: all 0.4s ease;
+            border: 3px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .attraction-card::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #43a047, #66bb6a, #81c784);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .attraction-card:hover::after {
+            transform: scaleX(1);
+        }
+
+        .attraction-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(67, 160, 71, 0.3);
+            border-color: #4caf50;
+        }
+
+        .attraction-card .icon {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+        }
+
+        .attraction-card h3 {
+            color: #1b5e20;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+        }
+
+        .attraction-card .category {
+            display: inline-block;
+            background: #0d47a1;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .attraction-card p {
+            color: #2e7d32;
+            line-height: 1.8;
+            font-size: 1.05em;
+        }
+
+        /* Food Section */
+        .food-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .food-card {
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+            padding: 30px;
+            border-radius: 15px;
+            border-left: 5px solid #f57c00;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .food-card:hover {
+            transform: translateX(10px) scale(1.03);
+            box-shadow: 0 10px 30px rgba(245, 124, 0, 0.3);
+            background: linear-gradient(135deg, #ffe0b2 0%, #ffcc80 100%);
+        }
+
+        .food-card .emoji {
+            font-size: 3em;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .food-card h4 {
+            color: #e65100;
+            margin-bottom: 12px;
+            font-size: 1.4em;
+        }
+
+        .food-card p {
+            color: #ef6c00;
+            line-height: 1.7;
+        }
+
+        .food-card .type {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #4caf50;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            font-weight: bold;
+        }
+
+        /* Pubs & Nightlife Section */
+        .pubs-section {
+            background: linear-gradient(135deg, #e1f5fe 0%, #b3e5fc 100%);
+            padding: 40px;
+            border-radius: 20px;
+            margin-top: 30px;
+        }
+
+        .pubs-section h3 {
+            color: #01579b;
+            font-size: 2em;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .pubs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .pub-box {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            border: 2px solid #0277bd;
+        }
+
+        .pub-box:hover {
+            background: linear-gradient(135deg, #e1f5fe 0%, #b3e5fc 100%);
+            transform: scale(1.05);
+            box-shadow: 0 15px 35px rgba(2, 119, 189, 0.3);
+        }
+
+        .pub-box .emoji {
+            font-size: 3.5em;
+            margin-bottom: 15px;
+        }
+
+        .pub-box h4 {
+            color: #01579b;
+            font-size: 1.5em;
+            margin-bottom: 12px;
+        }
+
+        .pub-box p {
+            color: #0277bd;
+            line-height: 1.7;
+        }
+
+        /* Activities Section */
+        .activities {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .activity-box {
+            background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 100%);
+            padding: 30px;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            border: 2px solid #c2185b;
+        }
+
+        .activity-box:hover {
+            background: linear-gradient(135deg, #f8bbd0 0%, #f48fb1 100%);
+            transform: scale(1.05);
+            box-shadow: 0 15px 35px rgba(194, 24, 91, 0.3);
+        }
+
+        .activity-box .emoji {
+            font-size: 3.5em;
+            margin-bottom: 15px;
+        }
+
+        .activity-box h4 {
+            color: #880e4f;
+            font-size: 1.5em;
+            margin-bottom: 12px;
+        }
+
+        .activity-box p {
+            color: #ad1457;
+            line-height: 1.7;
+        }
+
+        /* Areas Section */
+        .areas {
+            background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
+            padding: 40px;
+            border-radius: 20px;
+            margin-top: 30px;
+        }
+
+        .areas h3 {
+            color: #4a148c;
+            font-size: 2em;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .areas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .area {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 5px solid #7b1fa2;
+            transition: all 0.3s ease;
+        }
+
+        .area:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(123, 31, 162, 0.3);
+        }
+
+        .area h5 {
+            color: #4a148c;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+
+        .area p {
+            color: #6a1b9a;
+            line-height: 1.6;
+        }
+
+        /* Day Trips Section */
+        .daytrips {
+            background: linear-gradient(135deg, #fff9c4 0%, #fff59d 100%);
+            padding: 40px;
+            border-radius: 20px;
+            margin-top: 30px;
+        }
+
+        .daytrips ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .daytrips li {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 12px;
+            font-size: 1.15em;
+            border-left: 5px solid #f57c00;
+            transition: all 0.3s ease;
+            color: #e65100;
+        }
+
+        .daytrips li:hover {
+            background: #fff3e0;
+            padding-left: 30px;
+            box-shadow: 0 5px 15px rgba(245, 124, 0, 0.2);
+        }
+
+        .daytrips li::before {
+            content: "🚗 ";
+            margin-right: 10px;
+            font-size: 1.3em;
+        }
+
+        /* Tips Section */
+        .tips-container {
+            background: linear-gradient(135deg, #e0f2f1 0%, #b2dfdb 100%);
+            padding: 40px;
+            border-radius: 20px;
+            margin-top: 30px;
+        }
+
+        .tips-container h3 {
+            color: #004d40;
+            font-size: 2em;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .tip {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 5px solid #00897b;
+            transition: all 0.3s ease;
+        }
+
+        .tip:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 137, 123, 0.3);
+        }
+
+        .tip h5 {
+            color: #004d40;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .tip p {
+            color: #00695c;
+            line-height: 1.6;
+        }
+
+        footer {
+            background: linear-gradient(135deg, #212121 0%, #424242 100%);
+            color: white;
+            text-align: center;
+            padding: 40px;
+            margin-top: 0;
+        }
+
+        footer p {
+            font-size: 1.1em;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.2em;
+            }
+
+            .content {
+                padding: 30px 20px;
+            }
+
+            .attractions-grid,
+            .activities,
+            .food-grid,
+            .pubs-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section h2 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌳 Discover Bangalore 💻</h1>
+            <p>The Garden City & Silicon Valley of India</p>
+        </header>
+
+        <div class="content">
+            <div class="intro">
+                <p>Bangalore, officially known as Bengaluru, is India's tech capital and one of the most cosmopolitan cities in the country. Known for its pleasant weather, lush gardens, vibrant pub culture, and booming IT industry, Bangalore offers a perfect blend of modernity and tradition. From historic palaces to cutting-edge tech parks, from peaceful parks to buzzing nightlife, the city has something for everyone. Whether you're a foodie, nature lover, history enthusiast, or party-goer, Bangalore welcomes you with open arms!</p>
+            </div>
+
+            <div class="section">
+                <h2>🏛️ Top Attractions & Places to Visit</h2>
+                <div class="attractions-grid">
+                    <div class="attraction-card">
+                        <div class="icon">🏰</div>
+                        <h3>Bangalore Palace</h3>
+                        <span class="category">Heritage</span>
+                        <p>A magnificent Tudor-style palace inspired by Windsor Castle. Built in 1878, it features elegant wood carvings, paintings, and beautiful gardens. Audio guides available for historical insights.</p>
+                    </div>
+
+                    <div class="attraction-card">
+                        <div class="icon">🌸</div>
+                        <h3>Lalbagh Botanical Garden</h3>
+                        <span class="category">Nature</span>
+                        <p>240-acre botanical paradise with over 1,800 species of plants. Features a stunning glass house, lake, and rare tropical plants. The biannual flower shows are spectacular!</p>
+                    </div>
+
+                    <div class="attraction-card">
+                        <div class="icon">🌳</div>
+                        <h3>Cubbon Park</h3>
+                        <span class="category">Nature</span>
+                        <p>A 300-acre green lung in the heart of the city. Perfect for morning walks, jogging, and picnics. Home to the State Central Library and Vidhana Soudha nearby.</p>
+                    </div>
+
+                    <div class="attraction-card">
+                        <div class="icon">🕌</div>
+                        <h3>Tipu Sultan's Summer Palace</h3>
+                        <span class="category">Heritage</span>
+                        <p>Built in 1791, this Indo-Islamic architecture marvel features ornate pillars, beautiful arches, and intricate frescoes. A glimpse into Tipu Sultan's royal lifestyle.</p>
+                    </div>
+
+                    <div class="attraction-card">
+                        <div class="icon">🏛️</div>
+                        <h3>Vidhana Soudha</h3>
+                        <span class="category">Architecture</span>
+                        <p>The seat of Karnataka's legislative assembly, this neo-Dravidian building is illuminated beautifully at night. A symbol of Bangalore's administrative importance.</p>
+                    </div>
+
+                    <div class="attraction-card">
+                        <div class="icon">🙏</div>
+                        <h3>ISKCON Temple</h3>
+                        <span class="category">Religious</span>
+                        <p>A magnificent blend of modern technology and Vedic tradition. The temple's architecture, deity worship, and peaceful atmosphere attract millions of visitors annually.</p>
+                    </div>
+
+                    <div class="attraction-card">
+                        <div class="icon">🎨</div>
+                        <h3>National Gallery of Modern Art</h3>
+                        <span class="category">Culture</span>
+                        <p>Housed in a colonial mansion, featuring contemporary Indian art, sculptures, and rotating exhibitions. A must-visit for art enthusiasts.</p>
+                    </div>
+
+                    <div class="attraction-card">
+                        <div class="icon">⛪</div>
+                        <h3>St. Mary's Basilica</h3>
+                        <span class="category">Religious</span>
+                        <p>Built in 1882, this Gothic-style church is one of the oldest in Bangalore. Known for its stunning stained glass windows and annual feast celebrations.</p>
+                    </div>
+
+                    <div class="attraction-card">
+                        <div class="icon">🐘</div>
+                        <h3>Bannerghatta National Park</h3>
+                        <span class="category">Wildlife</span>
+                        <p>22 km from city center, featuring a biological park, zoo, safari park, and butterfly conservatory. See tigers, lions, elephants, and diverse bird species.</p>
+                    </div>
+
+                    <div class="attraction-card">
+                        <div class="icon">🎭</div>
+                        <h3>Rangashankara Theatre</h3>
+                        <span class="category">Culture</span>
+                        <p>Premier venue for theatre, drama, and performing arts. Regular shows in Kannada, English, and Hindi. A cultural hub for art lovers.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>🍽️ Must-Try Bangalore Food</h2>
+                <div class="food-grid">
+                    <div class="food-card">
+                        <span class="type">South Indian</span>
+                        <span class="emoji">🥞</span>
+                        <h4>Masala Dosa</h4>
+                        <p>Crispy rice crepe filled with spiced potato. Bangalore's breakfast staple! Try at Vidyarthi Bhavan or CTR for authentic taste.</p>
+                    </div>
+
+                    <div class="food-card">
+                        <span class="type">South Indian</span>
+                        <span class="emoji">🍛</span>
+                        <h4>Bisi Bele Bath</h4>
+                        <p>A wholesome Karnataka dish - rice, lentils, and vegetables cooked with aromatic spices and ghee. Comfort food at its best!</p>
+                    </div>
+
+                    <div class="food-card">
+                        <span class="type">South Indian</span>
+                        <span class="emoji">☕</span>
+                        <h4>Filter Coffee</h4>
+                        <p>Strong, frothy South Indian coffee that's a ritual in Bangalore. Best enjoyed at Indian Coffee House or Brahmin's Coffee Bar.</p>
+                    </div>
+
+                    <div class="food-card">
+                        <span class="type">Street Food</span>
+                        <span class="emoji">🥘</span>
+                        <h4>Mangalore Buns</h4>
+                        <p>Sweet, fluffy deep-fried bread made with banana. Perfect breakfast or evening snack with coconut chutney or sambar.</p>
+                    </div>
+
+                    <div class="food-card">
+                        <span class="type">Karnataka</span>
+                        <span class="emoji">🌯</span>
+                        <h4>Ragi Mudde</h4>
+                        <p>Traditional finger millet balls served with spicy curries. A nutritious Karnataka specialty that's gaining popularity.</p>
+                    </div>
+
+                    <div class="food-card">
+                        <span class="type">Biryani</span>
+                        <span class="emoji">🍚</span>
+                        <h4>Donne Biryani</h4>
+                        <p>Bangalore's unique biryani served in eco-friendly leaf bowls. Meghana Foods and Empire are legendary spots.</p>
+                    </div>
+
+                    <div class="food-card">
+                        <span class="type">Snacks</span>
+                        <span class="emoji">🍢</span>
+                        <h4>Gobi Manchurian</h4>
+                        <p>Indo-Chinese favorite! Crispy cauliflower florets in spicy-tangy sauce. Available at every street corner and restaurant.</p>
+                    </div>
+
+                    <div class="food-card">
+                        <span class="type">Dessert</span>
+                        <span class="emoji">🍰</span>
+                        <h4>Mysore Pak</h4>
+                        <p>Rich, ghee-laden sweet from nearby Mysore. Crumbly texture and divine taste. Available at Sri Krishna Sweets and local sweet shops.</p>
+                    </div>
+
+                    <div class="food-card">
+                        <span class="type">Karnataka</span>
+                        <span class="emoji">🥙</span>
+                        <h4>Akki Roti</h4>
+                        <p>Rice flour flatbread mixed with vegetables and spices. A healthy, gluten-free Karnataka breakfast option.</p>
+                    </div>
+
+                    <div class="food-card">
+                        <span class="type">Multi-cuisine</span>
+                        <span class="emoji">🌮</span>
+                        <h4>Fusion Cafes</h4>
+                        <p>Explore global cuisines at Koramangala and Indiranagar's trendy cafes. From Korean to Mexican, Bangalore has it all!</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>🍺 Bangalore's Pub Culture & Nightlife</h2>
+                <div class="pubs-section">
+                    <h3>India's Pub Capital</h3>
+                    <div class="pubs-grid">
+                        <div class="pub-box">
+                            <div class="emoji">🍻</div>
+                            <h4>Microbreweries</h4>
+                            <p>Try craft beers at Toit, Arbor Brewing Company, The Biere Club, and Windmills Craftworks. Fresh, locally brewed beer with great food!</p>
+                        </div>
+
+                        <div class="pub-box">
+                            <div class="emoji">🎵</div>
+                            <h4>Live Music Venues</h4>
+                            <p>Hard Rock Cafe, The Humming Tree, and Opus offer live bands and performances. Perfect for music lovers and party enthusiasts.</p>
+                        </div>
+
+                        <div class="pub-box">
+                            <div class="emoji">🌃</div>
+                            <h4>Rooftop Bars</h4>
+                            <p>High Ultra Lounge, Skyye, and 13th Floor offer stunning city views with signature cocktails. Dress smart and book in advance!</p>
+                        </div>
+
+                        <div class="pub-box">
+                            <div class="emoji">💃</div>
+                            <h4>Dance Clubs</h4>
+                            <p>Indigo XP, Sutra, and Kitty Ko for EDM and house music. Bangalore's nightlife extends till late with energetic crowds.</p>
+                        </div>
+
+                        <div class="pub-box">
+                            <div class="emoji">🍸</div>
+                            <h4>Speakeasy Bars</h4>
+                            <p>Watson's and The Reservoire offer intimate, classy ambiance with expertly crafted cocktails. Perfect for date nights.</p>
+                        </div>
+
+                        <div class="pub-box">
+                            <div class="emoji">🎤</div>
+                            <h4>Karaoke Nights</h4>
+                            <p>Sing your heart out at Karaoke Nation, Mirage Bar, and Hard Rock Cafe. Wednesday nights are popular for karaoke sessions!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>🎯 Things to Do & Experiences</h2>
+                <div class="activities">
+                    <div class="activity-box">
+                        <div class="emoji">🚴</div>
+                        <h4>Cycling Tours</h4>
+                        <p>Join morning cycling tours through Cubbon Park, Lalbagh, and heritage areas. Companies like Bangalore By Cycle offer guided tours.</p>
+                    </div>
+
+                    <div class="activity-box">
+                        <div class="emoji">🛍️</div>
+                        <h4>Shopping at Commercial Street</h4>
+                        <p>Budget-friendly shopping paradise for clothes, accessories, and footwear. Bargain hard and explore the side lanes for hidden gems.</p>
+                    </div>
+
+                    <div class="activity-box">
+                        <div class="emoji">☕</div>
+                        <h4>Cafe Hopping</h4>
+                        <p>Bangalore's cafe culture is legendary! Explore Third Wave Coffee, Blue Tokai, and Dyu Art Cafe in neighborhoods like Indiranagar.</p>
+                    </div>
+
+                    <div class="activity-box">
+                        <div class="emoji">🎬</div>
+                        <h4>IMAX Movie Experience</h4>
+                        <p>Watch latest releases at IMAX theaters in Lido or innovative theaters like PVR ICON with recliner seats and premium service.</p>
+                    </div>
+
+                    <div class="activity-box">
+                        <div class="emoji">🏃</div>
+                        <h4>Heritage Walks</h4>
+                        <p>Explore Bangalore's history through guided walks covering Fort, Pete area, and colonial architecture. Weekend walks organized by Unhurried.</p>
+                    </div>
+
+                    <div class="activity-box">
+                        <div class="emoji">🧘</div>
+                        <h4>Yoga & Wellness</h4>
+                        <p>Join early morning yoga sessions at Cubbon Park or visit wellness centers like Isha Yoga Centre and The Yoga Institute.</p>
+                    </div>
+
+                    <div class="activity-box">
+                        <div class="emoji">🎨</div>
+                        <h4>Art Galleries & Exhibitions</h4>
+                        <p>Explore contemporary art at Venkatappa Art Gallery, Karnataka Chitrakala Parishath, and regular exhibitions at Alliance Française.</p>
+                    </div>
+
+                    <div class="activity-box">
+                        <div class="emoji">🏛️</div>
+                        <h4>Museum Visits</h4>
+                        <p>Visit Visvesvaraya Industrial Museum, HAL Aerospace Museum, and Government Museum for educational and entertaining experiences.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>🏙️ Best Areas & Neighborhoods</h2>
+                <div class="areas">
+                    <h3>Explore Bangalore's Diverse Localities</h3>
+                    <div class="areas-grid">
+                        <div class="area">
+                            <h5>💼 Koramangala</h5>
+                            <p>Startup hub with trendy cafes, pubs, restaurants, and shopping complexes. Young, vibrant atmosphere with excellent nightlife.</p>
+                        </div>
+
+                        <div class="area">
+                            <h5>🌟 Indiranagar</h5>
+                            <p>Upscale neighborhood known for 100 Feet Road with boutiques, breweries, and fine dining. Fashion-forward and sophisticated.</p>
+                        </div>
+
+                        <div class="area">
+                            <h5>🏛️ MG Road & Brigade Road</h5>
+                            <p>Shopping and commercial heart of Bangalore. High-end stores, restaurants, pubs, and the iconic Forum Mall.</p>
+                        </div>
+
+                        <div class="area">
+                            <h5>🎭 Jayanagar</h5>
+                            <p>Traditional residential area with authentic South Indian restaurants, parks, and shopping complexes. Family-friendly neighborhood.</p>
+                        </div>
+
+                        <div class="area">
+                            <h5>💻 Whitefield</h5>
+                            <p>IT corridor with tech parks, malls, and cosmopolitan culture. Home to expats and young professionals.</p>
+                        </div>
+
+                        <div class="area">
+                            <h5>🌸 Malleswaram</h5>
+                            <p>Old Bangalore charm with traditional houses, temples, markets, and authentic Udupi restaurants. Cultural heart of the city.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>🚗 Perfect Day Trips from Bangalore</h2>
+                <div class="daytrips">
+                    <ul>
+                        <li>Nandi Hills (60 km) - Sunrise views, trekking, and pleasant weather. Popular for cycling and paragliding.</li>
+                        <li>Mysore (145 km) - Visit the magnificent Mysore Palace, Chamundi Hills, and Brindavan Gardens.</li>
+                        <li>Coorg (265 km) - Coffee plantations, waterfalls, and misty hills. Perfect weekend getaway.</li>
+                        <li>Shivanasamudra Falls (135 km) - Stunning waterfalls, best during monsoon season.</li>
+                        <li>Wayanad (280 km) - Hill station in Kerala with wildlife, caves, and scenic beauty.</li>
+                        <li>Hampi (350 km) - UNESCO World Heritage Site with ancient ruins and temples. Architectural marvel!</li>
+                        <li>Sakleshpur (220 km) - Western Ghats beauty with coffee estates, trekking, and homestays.</li>
+                        <li>Chikmagalur (250 km) - Coffee land with Mullayanagiri peak, plantations, and serene environment.</li>
+                        <li>Kabini (220 km) - Wildlife resort near Nagarhole National Park. Spot elephants, tigers, and leopards.</li>
+                        <li>Talakadu (135 km) - Buried temples in sand dunes. Unique archaeological site on the Kaveri river.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>💡 Essential Bangalore Travel Tips</h2>
+                <div class="tips-container">
+                    <h3>Navigate Bangalore Like a Local</h3>
+                    <div class="tips-grid">
+                        <div class="tip">
+                            <h5>🌤️ Best Time to Visit</h5>
+                            <p>October to February for pleasant weather. Bangalore has great weather year-round, but avoid peak summer (March-May).</p>
+                        </div>
+
+                        <div class="tip">
+                            <h5>🚇 Getting Around</h5>
+                            <p>Use Namma Metro, Uber/Ola cabs, or auto-rickshaws. Traffic can be heavy, so plan accordingly. Metro is fastest during rush hours.</p>
+                        </div>
+
+                        <div class="tip">
+                            <h5>🏨 Where to Stay</h5>
+                            <p>Koramangala and Indiranagar for nightlife, MG Road for shopping, Whitefield near IT parks. Options from budget to luxury available.</p>
+                        </div>
+
+                        <div class="tip">
+                            <h5>💰 Budget Planning</h5>
+                            <p>Budget: ₹1500-2500/day. Mid-range: ₹3000-6000/day. Luxury: ₹8000+/day. Food and transport relatively affordable.</p>
+                        </div>
+
+                        <div class="tip">
+                            <h5>📱 Internet & Connectivity</h5>
+                            <p>Excellent 4G/5G coverage. Most cafes and malls offer free WiFi. Get a local SIM for hassle-free connectivity.</p>
+                        </div>
+
+                        <div class="tip">
+                            <h5>🌙 Night Safety</h5>
+                            <p>Generally safe city, but stick to main areas at night. Use registered cabs for late-night travel. Pubs close by 1 AM.</p>
+                        </div>
+
+                        <div class="tip">
+                            <h5>🚦 Traffic Advisory</h5>
+                            <p>Traffic is worst 8-11 AM and 6-9 PM. Use alternate routes or Metro. Allow extra travel time for important appointments.</p>
+                        </div>
+
+                        <div class="tip">
+                            <h5>☔ Carry Umbrella</h5>
+                            <p>Weather can be unpredictable with sudden showers. Always carry an umbrella or light jacket, especially in evenings.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>🌳 Namma Bengaluru - Welcome to the Garden City & Pub Capital! 🍺</p>
+            <p style="margin-top: 10px; opacity: 0.8;">Experience the perfect blend of nature, technology, and culture in Silicon Valley of India</p>
+        </footer>
+    </div>
+</body>
+</html>
